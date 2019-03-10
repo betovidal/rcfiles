@@ -1,0 +1,14 @@
+On laptops?, there's an error saying "Deleting Screen 0... etc", when trying to run startx.
+
+https://forums.gentoo.org/viewtopic-t-928250-start-0.html
+
+solution is to edit/create a file:
+
+/etc/X11/xorg.conf
+
+with the contents:
+
+Section "Device"
+    Identifier "Device0"
+    Driver "nvidia"
+EndSection

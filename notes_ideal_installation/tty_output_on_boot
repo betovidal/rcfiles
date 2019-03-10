@@ -1,0 +1,6 @@
+tty1 sends output to integrated video card by default. You can override it in two ways.
+
+1. Boot, press 'e' for grub commands. Add "nomodeset" in front of "quiet splash", start with Ctrl+x. It should now send output to the GPU.
+2. To make these changes permanent, modify the file /etc/default/grub and add "nomodeset" in front of "quiet splash". Then $sudo update-grub2 (update-grub is the same).
+
+Change "quiet splash" to "text" for more details.
