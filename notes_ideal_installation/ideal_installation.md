@@ -22,6 +22,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * bash-completion
 * xorg, ->xinit<-
 * remove *nouveau* (if installing nvidia propietary drivers from nvidia/drivers page
+* install mesa-utils to have glx extension enabled!
 * restart, nVidia's installer will prompt you to automatically add disable modprobe for nouveau, say yes and restart. Check 'TTY1 output on boot' note for details.
 * nVidia propietary drivers (see NVIDIAadditional information)
 * To have read+write access to ntfs partitions: ntfs-3d (and reboot)
@@ -47,6 +48,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * dunst (notification daemon, depends on dbus-x11).
 * libnotify-bin (example: $notify-send Test "This is a test")
 * sxiv (Simple X Image Viewer, open with this, custom command "sixv -a" for animated gifs)
+* p7zip-full
 
 From dpkg
 * google-chrome. If install fails (it will fail) execute: $sudo apt-get install -f
