@@ -8,10 +8,6 @@ Order:
 5. https://st.suckless.org/patches/hidecursor/ <-- By hand
 
 
-Note: Delete config.h and st (executable) every time you want to test.
-
-My own changes for working in VIM:
-
 char font[] = "Terminus:pixelsize=18";
 
 	/* { XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0,  0}, */
