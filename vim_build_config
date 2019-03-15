@@ -1,0 +1,29 @@
+Taken from: https://www.xorpd.net/blog/vim_python3_install.html
+
+libncurses5-dev
+install python2.7-dev
+
+If it's not present, see where python was installed ($which python)
+
+In my case it's in: /usr/bin/python3.5
+
+$sudo ln -s /usr/bin/python3.5 /usr/bin/python
+
+Then configure and install
+
+[I don't wan't Python 2 anymore]
+
+$./configure \
+--enable-python3interp \
+--enable-gui=no \
+--with-features=normal \
+--enable-multibyte \
+--with-x \
+--with-compiledby="tocino" \
+--with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+--prefix=/opt/vim81
+
+$./configure --enable-python3interp --enable-gui=no --with-features=normal --enable-multibyte --with-x --with-compiledby="tocino" --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu --prefix=/opt/vim81
+
+$sudo make clean install
+$sudo ln -s /opt/vim81/bin/vim /usr/bin/vim
