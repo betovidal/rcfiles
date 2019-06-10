@@ -2,10 +2,12 @@
 
 static const char unknown_str[] = "?";
 
-/* static const char iname[] = "wlp2s0"; */
-static const char iname[] = "enp3s0";
+static const char iname[] = "wlan0";
+static const char bname[] = "BAT1";
+/* static const char iname[] = "enp3s0"; */
 static const struct arg args[] = {
 	/* function format          argument */
+	{ battery_perc, " bat: %3s%%", bname },
 	{ run_command, "| vol: %2s%% ", "/bin/bash -c \"amixer get Master | awk '\\$0~/%/{print \\$4}' | tr -d '[]%'\""},
 	{ netspeed_tx, "| ▲ %8s ", iname},
 	{ netspeed_rx, "| ▼ %8s ", iname},
