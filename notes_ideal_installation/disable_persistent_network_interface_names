@@ -1,0 +1,3 @@
+go to /etc/default and inside this configuration, add:
+
+GRUB_CMDLINE_LINUX_DEFAULT="net.ifnames=0"
