@@ -20,10 +20,10 @@ $./configure \
 --enable-multibyte \
 --with-x \
 --with-compiledby="tocino" \
---with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+--with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu \
 --prefix=/opt/vim81
 
-$./configure --enable-python3interp --enable-gui=no --with-features=normal --enable-multibyte --with-x --with-compiledby="tocino" --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu --prefix=/opt/vim81
+$./configure --enable-python3interp --enable-gui=no --with-features=normal --enable-multibyte --with-x --with-compiledby="tocino" --with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu --prefix=/opt/vim8
 
 $sudo make clean install
-$sudo ln -s /opt/vim81/bin/vim /usr/bin/vim
+$sudo ln -s /opt/vim8/bin/vim /usr/bin/vim
