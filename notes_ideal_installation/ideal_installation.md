@@ -35,7 +35,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * See suckless terminal setup (st) note for configuring st.
 * libx11-dev, libxinerama-dev, libxft-dev, libjpeg-dev, libxrandr-dev, libxt-dev
 * zathura
-* markdown
+* cmark (parse markdown to html and other formats)
 * bc (echo "2+2" | bc -l)
 * xsel (ranger copy to clipboard)
 * winbind libnss-winbind (for seeing windows hostnames)
