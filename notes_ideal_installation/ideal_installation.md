@@ -14,7 +14,7 @@ Install mode: sudo apt-get install
 I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git_repositories/
 
 * Read "sources.list" note.
-*Add user to sudo: #usermod -aG sudo <user>
+* Add user to sudo: #usermod -aG sudo <user>
 * sudo
 * gcc (199 MB)
 * make
@@ -35,6 +35,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * See suckless terminal setup (st) note for configuring st.
 * libx11-dev, libxinerama-dev, libxft-dev, libjpeg-dev, libxrandr-dev, libxt-dev
 * zathura
+* markdown
 * bc (echo "2+2" | bc -l)
 * xsel (ranger copy to clipboard)
 * winbind libnss-winbind (for seeing windows hostnames)

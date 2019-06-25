@@ -267,6 +267,10 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_tab_guides = 0
+" ================================ Vim Notes ==================================
+" let g:notes_directories = ['~/Notes']
+" let g:notes_suffix = '.note'
+
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray24 ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray24 ctermbg=8
 " Display command on bottom
