@@ -267,9 +267,21 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_tab_guides = 0
-" ================================ Vim Notes ==================================
-" let g:notes_directories = ['~/Notes']
-" let g:notes_suffix = '.note'
+" ================================ _My functions START_ =======================
+function MDOpen()
+	if &filetype == 'markdown'
+		if has('win32')
+			echo 'I do not know how to do this here! Be patient'
+		else
+			let full_path = expand('%:p')
+			" let full_path = '/home/tocino/Notes/texto.md'
+			execute "!cat " . full_path . " | cmark | google-chrome \"data:text/html;base64,$(base64 -w 0 <&0)\"\<cr>"
+		endif
+	else
+		echo 'This is not a markdown file!'
+	endif
+endfunction
+" ================================ _My functions END_ =========================
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray24 ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray24 ctermbg=8
