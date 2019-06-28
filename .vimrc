@@ -269,13 +269,15 @@ let g:indent_guides_auto_colors = 0
 let g:indent_guides_tab_guides = 0
 " ================================ _My functions START_ =======================
 function MDOpen()
+	let html_destination = $HOME . '/.vim/html/tmp.html'
 	if &filetype == 'markdown'
+		let full_path = expand('%:p')
 		if has('win32')
 			echo 'I do not know how to do this here! Be patient'
 		else
-			let full_path = expand('%:p')
-			" let full_path = '/home/tocino/Notes/texto.md'
-			execute "!cat " . full_path . " | cmark | google-chrome \"data:text/html;base64,$(base64 -w 0 <&0)\"\<cr>"
+			execute "silent !cat " . full_path . " | cmark > " . html_destination
+			execute "silent !google-chrome " . html_destination
+			redraw!
 		endif
 	else
 		echo 'This is not a markdown file!'
