@@ -267,8 +267,11 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_tab_guides = 0
+" ================================
+" Override \ as leader key
+let mapleader=","
 " ================================ _My functions START_ =======================
-function MDOpen()
+function MDOpen(option)
 	let html_destination = $HOME . '/.vim/html/tmp.html'
 	if &filetype == 'markdown'
 		let full_path = expand('%:p')
@@ -276,13 +279,17 @@ function MDOpen()
 			echo 'I do not know how to do this here! Be patient'
 		else
 			execute "silent !cat " . full_path . " | cmark > " . html_destination
-			execute "silent !google-chrome " . html_destination
+			if (a:option == 1)
+				execute "silent !google-chrome " . html_destination
+			endif
 			redraw!
 		endif
 	else
 		echo 'This is not a markdown file!'
 	endif
 endfunction
+nmap ,c  :call MDOpen(0)<CR>
+nmap ,cc :call MDOpen(1)<CR>
 " ================================ _My functions END_ =========================
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray24 ctermbg=8
@@ -305,8 +312,6 @@ nmap gT :bprevious <CR>
 nmap <F3> :UndotreeToggle<CR>
 " For opening tagbar
 nmap <F4> :TagbarToggle<CR>
-" Override \ as leader key
-let mapleader=","
 " Overriden in urxvt/st config
 nnoremap <F9>  : bprev<CR>
 nnoremap <F10> : bnext<CR>
