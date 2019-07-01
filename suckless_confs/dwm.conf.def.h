@@ -15,6 +15,12 @@ static const Rule rules[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *mouse_up[] = { "xdotool", "mousemove_relative", "--", "0", "-15", NULL };
+static const char *mouse_right[] = { "xdotool", "mousemove_relative", "--", "15", "0", NULL };
+static const char *mouse_down[] = { "xdotool", "mousemove_relative", "--", "0", "15", NULL };
+static const char *mouse_left[] = { "xdotool", "mousemove_relative", "--", "-15", "0", NULL };
+static const char *click_left[] = { "xdotool", "click", "1", NULL };
+static const char *click_right[] = { "xdotool", "click", "3", NULL };
 static const char *prev_track[] = { "cmus-remote", "-r", NULL };
 static const char *next_track[] = { "cmus-remote", "-n", NULL };
 static const char *play_track[] = { "cmus-remote", "-p", NULL };
@@ -50,4 +56,10 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_v,      spawn,          {.v = stop_track } },
 	{ MODKEY|ControlMask,           XK_Right,  spawn,          {.v = seek_f_track } },
 	{ MODKEY|ControlMask,           XK_Left,   spawn,          {.v = seek_b_track } },
+	{ MODKEY|ControlMask,           XK_h,      spawn,          {.v = mouse_left } },
+	{ MODKEY|ControlMask,           XK_j,      spawn,          {.v = mouse_down } },
+	{ MODKEY|ControlMask,           XK_k,      spawn,          {.v = mouse_up } },
+	{ MODKEY|ControlMask,           XK_l,      spawn,          {.v = mouse_right } },
+	{ MODKEY|ControlMask,           XK_space,  spawn,          {.v = click_left } },
+	{ MODKEY|ControlMask|ShiftMask, XK_space,  spawn,          {.v = click_right } },
 	/* My own key bindings END */

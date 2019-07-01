@@ -1,16 +1,20 @@
 # This is what my ideal installation looks like
 
-
 Debian, net install. In windows use rufus, in Linux:
 (unmounted device)
+
+```
 $mkdosfs /dev/sdX1
 $dd if=<file> of=<device> bs=4M; sync
 <device> = sdX
+```
 
-https://wiki.debian.org/BootUsb
-https://www.debian.org/CD/faq/#write-up 
-44
-Install mode: sudo apt-get install
+* https://wiki.debian.org/BootUsb
+* https://www.debian.org/CD/faq/#write-up 
+
+## Packages
+
+Install mode: sudo apt install
 I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git_repositories/
 
 * Read "sources.list" note.
@@ -38,6 +42,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * cmark (parse markdown to html and other formats)
 * bc (echo "2+2" | bc -l)
 * xsel (ranger copy to clipboard)
+* xclip -> copy image to clipboard (see scripts)
 * winbind libnss-winbind (for seeing windows hostnames)
 * For all the suckless packages, the way to install is patches->config.h modifications->$make->$make clean install
 * terminus font http://terminus-font.sourceforge.net/, (uncompress with tar -zxvf) follow install instructions under linux (2.1 from the readme: $./configure $make -j4 pcf, $make install-pcf) and replace psf for pcf, attention! PCF is the way to go! After script finishes, run: $sudo dpkg-reconfigure fontconfig-config and enable bitmap fonts.
@@ -51,7 +56,8 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * sxiv (Simple X Image Viewer, open with this, custom command "sixv -a" for animated gifs)
 * p7zip-full
 
-From dpkg
+## From dpkg
+
 * google-chrome. If install fails (it will fail) execute: $sudo apt-get install -f
 https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
