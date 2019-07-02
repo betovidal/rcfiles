@@ -9,7 +9,7 @@ static const struct arg args[] = {
 	/* function format          argument */
 	{ battery_state,"%s", bname },
 	{ battery_perc, "b:%3s", bname },
-	{ run_command,  "|♪:%3s", "/bin/bash -c \"amixer get Master | awk '\\$0~/%/{print \\$5}' | tr -d '[]%'\""},
+	{ run_command,  "|♫:%3s", "/bin/bash -c \"amixer get Master | awk '\\$0~/%/{print \\$5}' | tr -d '[]%'\""},
 	{ netspeed_tx,  "|▲%8s", iname},
 	{ netspeed_rx,  "|▼%8s", iname},
 	{ ram_perc,     "|r:%3s", NULL},
