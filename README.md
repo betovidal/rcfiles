@@ -9,7 +9,7 @@ Yup, that's it, nothing relevant to say.
 * ~/.config/ranger/rifle.conf (manual edit, just in case)
 * ~/.config/ranger/rc.conf
 * ~/.config/mpv/mpv.conf
-* ~/.vba/VisualBoyAdvance.cfg
+* ~/.mednafen/mednafen.cfg
 * /usr/share/X11/xorg.conf.d/20-intel.conf # To avoid screen tearing, laptop
 
 * All the suckless configurations belong to their respective conf.def.h file.
