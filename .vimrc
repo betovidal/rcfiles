@@ -77,6 +77,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 " Dracula Theme!
 Plugin 'dracula/vim'
+Plugin 'morhetz/gruvbox'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -152,6 +153,8 @@ command! SearchWithFZFandRipGrep call fzf#run(fzf#wrap({
   \'options' : '-m'
 \}))
 noremap <C-P> :SearchWithFZFandRipGrep <CR>
+" "============================ gruvbox ===========================
+set bg=dark
 " ================================== GUTENTAGS =============================
 let g:gutentags_cache_dir='~/.vim/tags'
 let g:gutentags_ctags_exclude = ['node_modules', '.git', '*.min.js']
@@ -344,8 +347,8 @@ let g:loaded_zip      = 1
 syntax on
 set number
 set t_Co=256
-" colorscheme molokai
-colorscheme dracula
+" set colorscheme
+colorscheme gruvbox
 " Do not use polyglot with the following filetypes:
 " let g:polyglot_disabled = ['markdown', 'text', 'json', 'html5']
 set incsearch
