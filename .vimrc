@@ -2,7 +2,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-" Include fzf path as well
+" Do not force save before switching to different buffer
+set hidden
 if has('win32')
   set list          " Display unprintable characters f12 - switches
   set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
@@ -25,7 +26,9 @@ Plugin 'ajh17/VimCompletesMe'
 " Plugin 'prabirshrestha/async.vim'
 " Plugin 'prabirshrestha/vim-lsp'
 " Plugin 'scrooloose/nerdtree'
+Plugin 'PProvost/vim-ps1'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
 " First I need to install jshint via: npm -g install jshint (and available @ PATH)
 " For styles, install jscs too.
 " NOTE: Other languages require different linters/syntax checkers
@@ -283,7 +286,7 @@ function MDOpen(option)
 		else
 			execute "silent !cat " . full_path . " | cmark > " . html_destination
 			if (a:option == 1)
-				execute "silent !google-chrome " . html_destination
+				execute "silent !dillo " . html_destination
 			endif
 			redraw!
 		endif
@@ -378,7 +381,8 @@ if has("win32")
   set encoding=utf-8
   " Avoid mouse interaction other than selecting
   set mouse=c
-  set guifont=terminus:h14
+  " set guifont=terminus:h14
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h14
   set guioptions-=m "remove menu bar
   set guioptions-=T "remove toolbar
   set guioptions-=r "remove right-hand scroll bar
@@ -389,17 +393,27 @@ if has("win32")
   " Util snips KB shortcut to expand
   let g:UltiSnipsExpandTrigger="<C-Space>"
   " Non unicode symbols
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.linenr = 'LN'
-  let g:airline_symbols.branch = 'Y'
-  let g:airline_symbols.paste = 'P'
-  let g:airline_symbols.whitespace = '_'
-  let g:airline_symbols.readonly = 'RO'
-  let g:ale_statusline_format = ['x %d', '! %d', 'OK']
-  let g:ale_sign_error = 'x'
+  " let g:airline_left_sep = ''
+  " let g:airline_right_sep = ''
+  " let g:airline_left_alt_sep = ''
+  " let g:airline_right_alt_sep = ''
+  " let g:airline_symbols.linenr = 'LN'
+  " let g:airline_symbols.branch = 'Y'
+  " let g:airline_symbols.paste = 'P'
+  " let g:airline_symbols.whitespace = '_'
+  " let g:airline_symbols.readonly = 'RO'
+  " let g:ale_statusline_format = ['x %d', '! %d', 'OK']
+  " let g:ale_sign_error = 'x'
+  " unicode symbols
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+  let g:ale_statusline_format = ['✖ %d', '⚠ %d', '✓ ok']
+  let g:ale_sign_error = '✖'
 elseif has("unix")
   " unicode symbols
   let g:airline_symbols.paste = 'ρ'
