@@ -4,6 +4,7 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 " Do not force save before switching to different buffer
 set hidden
+set foldmethod=indent
 if has('win32')
   set list          " Display unprintable characters f12 - switches
   set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
