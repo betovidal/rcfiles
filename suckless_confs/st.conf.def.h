@@ -35,6 +35,7 @@ unsigned int defaultrcs = 15;
 
 
 char font[] = "Terminus:pixelsize=18";
+static char *font = "DejaVu Sans Mono for Powerline:pixelsize=18:antialias=true:autohint=true";
 
 	/* { XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0,  0}, */
 	/* { XK_Tab,          ControlMask,                    "\033[9;5u",   0,  0,  0}, */
