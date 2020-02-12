@@ -40,6 +40,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * libx11-dev, libxinerama-dev, libxft-dev, libjpeg-dev, libxrandr-dev, libxt-dev
 * zathura
 * fonts-noto-color-emoji (don't judge me)
+* Or better: fonts-symbola (black and white)
 * cmark (parse markdown to html and other formats)
 * bc (echo "2+2" | bc -l)
 * xsel (ranger copy to clipboard)
