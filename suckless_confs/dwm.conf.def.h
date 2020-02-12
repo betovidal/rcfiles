@@ -1,5 +1,5 @@
-static const char *fonts[]          = { "Terminus:pixelsize=16" };
-static const char dmenufont[]       = "Terminus:pixelsize=16";
+static const char *fonts[]          = { "DejaVu Sans Mono for Powerline:pixelsize=16" };
+static const char dmenufont[]       = "DejaVu Sans Mono for Powerline:pixelsize=16";
 
 static const Rule rules[] = {
 	/* xprop(1):
