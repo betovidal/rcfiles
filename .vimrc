@@ -1,4 +1,9 @@
 set nocompatible              " be iMproved, required
+set path+=**
+set wildignore+=**/node_modules/**
+set wildignore+=**/.git/**
+let g:netrw_liststyle=3
+
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -26,28 +31,24 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'ajh17/VimCompletesMe'
 " Plugin 'prabirshrestha/async.vim'
 " Plugin 'prabirshrestha/vim-lsp'
-" Plugin 'scrooloose/nerdtree'
 Plugin 'PProvost/vim-ps1'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 " First I need to install jshint via: npm -g install jshint (and available @ PATH)
 " For styles, install jscs too.
 " NOTE: Other languages require different linters/syntax checkers
-Plugin 'w0rp/ale'
+" Plugin 'w0rp/ale'
 Plugin 'vim-airline/vim-airline'
-Plugin 'Raimondi/delimitMate'
-" ,b to open the buffer navigator
-Plugin 'jeetsukumaran/vim-buffergator'
-" Vertical lines on indent space (like in subl)
+" Plugin 'Raimondi/delimitMate'
 " Assigned to Ctrl + P (install fzf on the system, check fzf.vim)
-Plugin 'junegunn/fzf.vim'
+" Plugin 'junegunn/fzf.vim'
 " Syntax related
 Plugin 'pangloss/vim-javascript'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'vim-jp/vim-cpp'
 " Plugin 'sheerun/vim-polyglot'
 " Assigned to Ctrl + T, switch between dictionary (custom see below)
-Plugin 'AndrewRadev/switch.vim'
+" Plugin 'AndrewRadev/switch.vim'
 " When searching, display total occurrences of match
 Plugin 'henrik/vim-indexed-search'
 " :Tab /{pattern} -> Even in visual mode
@@ -76,9 +77,10 @@ Plugin 'mbbill/undotree'
 " snipets!
 " Lighter indent lines
 " Plugin 'thaerkh/vim-indentguides'
+" Vertical lines on indent space (like in sublime)
 Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'honza/vim-snippets'
-Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
+" Plugin 'SirVer/ultisnips'
 " Dracula Theme!
 Plugin 'dracula/vim'
 Plugin 'morhetz/gruvbox'
@@ -134,7 +136,7 @@ let g:airline#extensions#ale#enabled=1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " "============================ Buffer Gator ===========================
-let g:buffergator_autoexpand_on_split=0
+" let g:buffergator_autoexpand_on_split=0
 " "============================ dracula.vim ===========================
 let g:dracula_italic=0
 " ================================== FZF.VIM = ============================
@@ -182,83 +184,6 @@ set completeopt+=preview
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
-" ================================== SWITCH.VIM ============================
-let g:switch_custom_definitions =
-\[
-\ {
-\   'width':  'height',
-\   'height': 'width'
-\ },
-\ {
-\   'top':  'bottom',
-\   'bottom': 'top'
-\ },
-\ {
-\   'left':  'right',
-\   'right': 'left'
-\ },
-\ {
-\   'Left':  'Right',
-\   'Right': 'Left'
-\ },
-\ {
-\   'up':  'down',
-\   'down': 'up'
-\ },
-\ {
-\   'top'    :  'bottom',
-\   'bottom' : 'top'
-\ },
-\ {
-\   '+': '-',
-\   '-': '+'
-\ },
-\ {
-\   '*': '/',
-\   '/': '*'
-\ },
-\ {
-\   ' > ': ' < ',
-\   ' < ': ' > '
-\ },
-\ {
-\   'min': 'max',
-\   'max': 'min'
-\ },
-\ {
-\   'Min': 'Max',
-\   'Max': 'Min'
-\ },
-\ {
-\   'upper': 'lower',
-\   'lower': 'upper'
-\ },
-\ {
-\   'high': 'low',
-\   'low': 'high'
-\ },
-\ {
-\   'High': 'Low',
-\   'Low': 'High'
-\ },
-\ {
-\   'Before': 'After',
-\   'After': 'Before'
-\ },
-\ {
-\   'before': 'after',
-\   'after': 'before'
-\ },
-\ {
-\   'On': 'Off',
-\   'Off': 'On'
-\ },
-\ {
-\   'on': 'off',
-\   'off': 'on'
-\ }
-\]
-nnoremap <C-t> :Switch <CR>
 " ======================== UTILSNIPS =======================
 " Important!! Ctrl+Space was remapped in urxvt and disabled from ibus through:
 " (Command in terminal)
@@ -297,6 +222,14 @@ function MDOpen(option)
 endfunction
 nmap ,c  :call MDOpen(0)<CR>
 nmap ,cc :call MDOpen(1)<CR>
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+" inoremap {;<CR> {<CR>};<ESC>O
 " ================================ _My functions END_ =========================
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray24 ctermbg=8
