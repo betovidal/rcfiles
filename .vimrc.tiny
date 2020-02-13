@@ -1,0 +1,91 @@
+" Boostraped from - https://www.youtube.com/watch?v=XA2WjJbmmoM
+set nocompatible            " Do not pretend to be vi, enable new features
+set showcmd
+let mapleader=","           " To add more functionality, instead of \
+filetype plugin on          " Enable netwr
+set wildignore+=**/node/modules/**,**/__pycache__/** " But do not consider the following folders
+set wildmenu                " Display all matching files when we tab complete, complete ex commands
+set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
+set incsearch               " Highlight conincidences as you search
+packadd matchit             " Match opening/closing html,xml tags with *
+set colorcolumn=81,121
+set hlsearch
+set ruler
+" Unprintable characters
+set list          " Display unprintable characters f12 - switches
+set listchars=tab:\·\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
+" set rulerformat=%l,%c%V%=%P
+"  ================  NETRW CONFIGURATION =================
+let g:netrw_browse_split=0  " Default, use current window to open file
+let g:netrw_liststyle=3     " Allow netrw to expand and collapse, see like a tree
+" let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+' <---- Hide something from list
+
+"  ================  TEMPORAL FILES      =================
+let g:netrw_browse_split=0  " Default, use current window to open file
+ " Concentrate temporal files files in the same location https://vi.stackexchange.com/a/179
+set directory^=$HOME/.vim/tmp// " Swap files (e.g. %home%tocino%.vimrc)
+set backupdir^=$HOME/.vim/tmp// " Temporal (file.ext~)
+set undodir^=$HOME/.vim/tmp//   " I can't recall how these look
+
+" ================= COLOR SCHEME CONFIGURATION ===========
+syntax enable               " Colors for syntax
+colorscheme gruvbox         " Download from https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim
+set number                  " Line numbers in gutter
+set background=dark         " Dark mode
+
+set omnifunc=syntaxcomplete#Complete
+
+" ==================== Autoclose  ========================
+" let g:my_autoclose_on=0 " start with 0 to enable... it's late, don't judge me
+" function ToggleAutoClose(print_action)
+"     if g:my_autoclose_on
+"         let g:my_autoclose_on=0
+" 	iunmap "
+" 	iunmap '
+" 	iunmap (
+" 	iunmap [
+" 	iunmap {
+" 	iunmap {<CR>
+"     else
+"         let g:my_autoclose_on=1
+" 	inoremap " ""<left>
+" 	inoremap ' ''<left>
+" 	inoremap ( ()<left>
+" 	inoremap [ []<left>
+" 	inoremap { {}<left>
+" 	inoremap {<CR> {<CR>}<ESC>O
+"     endif
+"     if a:print_action
+"         echo "Autoclose is " . g:my_autoclose_on
+"     endif
+" endfunction
+" nmap ,ac  :call ToggleAutoClose(1)<CR>
+" call ToggleAutoClose(0)
+
+" ============== WINDOWS SPECIFIC CONFIG ================
+
+if has("win32")
+  " Unprintable characters
+  set list          " Display unprintable characters f12 - switches
+  set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
+  set belloff=all
+  " Kill pop ups
+  set guioptions+=lrbmTLce
+  set guioptions-=lrbmTLce
+  set guioptions+=c
+  " Do not blink, block cursor
+  set guicursor+=a:blinkon0
+  set guicursor+=a:block-Cursor
+  " Fix line endings
+  set ff=unix " This fixes extra line breaks in google.keep
+  " Fix line endings
+  set encoding=utf-8
+  " Avoid mouse interaction other than selecting
+  set mouse=c
+  " set guifont=terminus:h14
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h14
+  set guioptions-=m "remove menu bar
+  set guioptions-=T "remove toolbar
+  set guioptions-=r "remove right-hand scroll bar
+  set guioptions-=L "remove left-hand scroll bar
+endif
