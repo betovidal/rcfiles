@@ -1,18 +1,30 @@
 " Boostraped from - https://www.youtube.com/watch?v=XA2WjJbmmoM
+" and vim-sensible
+" Install vim-plug through:
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+packadd matchit             " Match opening/closing html,xml tags with *
+filetype plugin indent on   " https://vi.stackexchange.com/a/10125
 set nocompatible            " Do not pretend to be vi, enable new features
 set showcmd
 let mapleader=","           " To add more functionality, instead of \
 filetype plugin on          " Enable netwr
-set wildignore+=**/node/modules/**,**/__pycache__/** " But do not consider the following folders
+set wildignore+=**/node/modules/**,**/__pycache__/** " Do not consider folders in :find
 set wildmenu                " Display all matching files when we tab complete, complete ex commands
 set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
+set showcmd                 " Show command being executed
 set incsearch               " Highlight conincidences as you search
-packadd matchit             " Match opening/closing html,xml tags with *
+set hidden                  " Hide buffers instead of closing them. This has benefits like: move across buffers without having to save them. Keep buffers in memory. After changing to a different buffer and going back to the previous buffer, unoding is possible, without this option, it is not.
+set omnifunc=syntaxcomplete#Complete
+set backspace=indent,start  " :help 'backspace' make backspace delete those levels
+set autoread                " :help 'autoread' make changes available in vim
+set foldmethod=indent
+set nofoldenable            " To avoid starting folded, folds enabled by pressing z comb
 set colorcolumn=81,121
 set hlsearch
+set laststatus=2            " Have status bar available always (for every window)
 set ruler
-" Unprintable characters
-set list          " Display unprintable characters f12 - switches
+set display+=lastline       " Not fully displayed lines end in @@@
+set list                    " Display unprintable characters
 set listchars=tab:\·\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
 " set rulerformat=%l,%c%V%=%P
 "  ================  NETRW CONFIGURATION =================
@@ -33,40 +45,35 @@ colorscheme gruvbox         " Download from https://raw.githubusercontent.com/mo
 set number                  " Line numbers in gutter
 set background=dark         " Dark mode
 
-set omnifunc=syntaxcomplete#Complete
+" ============== KEYMAPPINGS ================
+" Clear highlight with Control L, taken from vim-sensible
+nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 
-" ==================== Autoclose  ========================
-" let g:my_autoclose_on=0 " start with 0 to enable... it's late, don't judge me
-" function ToggleAutoClose(print_action)
-"     if g:my_autoclose_on
-"         let g:my_autoclose_on=0
-" 	iunmap "
-" 	iunmap '
-" 	iunmap (
-" 	iunmap [
-" 	iunmap {
-" 	iunmap {<CR>
-"     else
-"         let g:my_autoclose_on=1
-" 	inoremap " ""<left>
-" 	inoremap ' ''<left>
-" 	inoremap ( ()<left>
-" 	inoremap [ []<left>
-" 	inoremap { {}<left>
-" 	inoremap {<CR> {<CR>}<ESC>O
-"     endif
-"     if a:print_action
-"         echo "Autoclose is " . g:my_autoclose_on
-"     endif
-" endfunction
-" nmap ,ac  :call ToggleAutoClose(1)<CR>
-" call ToggleAutoClose(0)
+" ============== PLUGINS ===================
+call plug#begin('~/.vim/plugged')
+" See https://github.com/junegunn/vim-plug for possibilities
+" These are in old config
+" Plug 'VundleVim/Vundle.vim'
+" Plug 'ajh17/VimCompletesMe'
+" Plug 'PProvost/vim-ps1'
+" Plug 'tpope/vim-surround'
+" Plug 'vim-airline/vim-airline'
+" Plug 'pangloss/vim-javascript'
+" Plug 'PotatoesMaster/i3-vim-syntax'
+" Plug 'vim-jp/vim-cpp'
+" Plug 'henrik/vim-indexed-search'
+" Plug 'godlygeek/tabular'
+" Plug 'tpope/vim-commentary'
+" Plug 'mbbill/undotree'
+" Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'dracula/vim'
+" Plug 'morhetz/gruvbox'
+call plug#end()
 
 " ============== WINDOWS SPECIFIC CONFIG ================
 
 if has("win32")
   " Unprintable characters
-  set list          " Display unprintable characters f12 - switches
   set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
   set belloff=all
   " Kill pop ups
@@ -76,8 +83,9 @@ if has("win32")
   " Do not blink, block cursor
   set guicursor+=a:blinkon0
   set guicursor+=a:block-Cursor
-  " Fix line endings
-  set ff=unix " This fixes extra line breaks in google.keep
+  " Fix line endings IN GOOGLE KEEP. This messes some config files in windows.
+  " use ff=dos when needed... or save again in notepad.
+  set ff=unix
   " Fix line endings
   set encoding=utf-8
   " Avoid mouse interaction other than selecting
