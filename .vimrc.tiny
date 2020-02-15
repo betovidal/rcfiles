@@ -59,10 +59,16 @@ endif
 nnoremap ,s :SyntasticCheck<CR>
 " Close 'location-list-window', the one syntastic uses for showing errors
 nnoremap ,c :lclose<CR>
-" switch buffers (note the space after :b
+" switch buffers (note the space after :b)
 nnoremap ,b :ls<CR>:b 
 " Tabularize
 vnoremap ,t :Tab/
+" Expand common enclosing signs to allow keep writing inside
+inoremap () ()<C-c>i
+inoremap [] []<C-c>i
+inoremap {} {}<C-c>i
+inoremap "" ""<C-c>i
+inoremap '' ''<C-c>i
 
 " ============== PLUGINS ===================
 call plug#begin('~/.vim/plugged')
@@ -73,7 +79,8 @@ Plug 'morhetz/gruvbox'                      " Color theme
 Plug 'henrik/vim-indexed-search'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 " Plug 'VundleVim/Vundle.vim'
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'PProvost/vim-ps1'
