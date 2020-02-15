@@ -1,5 +1,6 @@
 " Boostraped from - https://www.youtube.com/watch?v=XA2WjJbmmoM
 " and vim-sensible
+" Check if I want this https://superuser.com/questions/271023/can-i-disable-continuation-of-comments-to-the-next-line-in-vim
 " Install vim-plug through:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 packadd matchit             " Match opening/closing html,xml tags with *
@@ -49,6 +50,11 @@ set background=dark         " Dark mode
 " ============== KEYMAPPINGS ================
 " Clear highlight with Control L, taken from vim-sensible
 nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+" Check current file for errors/warnings/style violations (depending on the
+" tool)
+nnoremap ,s :SyntasticCheck<CR>
+" Close 'location-list-window', the one syntastic uses for showing errors
+nnoremap ,c :lclose<CR>
 
 " ============== PLUGINS ===================
 call plug#begin('~/.vim/plugged')
