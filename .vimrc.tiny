@@ -15,7 +15,7 @@ set wildmenu                " Display all matching files when we tab complete, c
 set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
 set showcmd                 " Show command being executed
 set incsearch               " Highlight conincidences as you search
-set hidden                  " Hide buffers instead of closing them. This has benefits like: move across buffers without having to save them. Keep buffers in memory. After changing to a different buffer and going back to the previous buffer, unoding is possible, without this option, it is not.
+set hidden                  " Hide buffers instead of closing them. This has benefits like: move across buffers without having to save them. Keep buffers in memory. After changing to a different buffer and going back to the previous buffer, unoding is possible.
 set omnifunc=syntaxcomplete#Complete
 set backspace=indent,start  " :help 'backspace' make backspace delete those levels
 set autoread                " :help 'autoread' make changes available in vim
@@ -29,6 +29,8 @@ set display+=lastline       " Not fully displayed lines end in @@@
 set list                    " Display unprintable characters
 set listchars=tab:\·\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
 " set rulerformat=%l,%c%V%=%P
+" set ruler
+
 "  ================  NETRW CONFIGURATION =================
 let g:netrw_browse_split=0  " Default, use current window to open file
 let g:netrw_liststyle=3     " Allow netrw to expand and collapse, see like a tree
@@ -49,38 +51,48 @@ set background=dark         " Dark mode
 
 " ============== KEYMAPPINGS ================
 " Clear highlight with Control L, taken from vim-sensible
-nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+if maparg('<C-L>', 'n') ==# ''
+    nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
 " Check current file for errors/warnings/style violations (depending on the
 " tool)
 nnoremap ,s :SyntasticCheck<CR>
 " Close 'location-list-window', the one syntastic uses for showing errors
 nnoremap ,c :lclose<CR>
+" switch buffers (note the space after :b
+nnoremap ,b :ls<CR>:b 
+" Tabularize
+vnoremap ,t :Tab/
 
 " ============== PLUGINS ===================
 call plug#begin('~/.vim/plugged')
 " See https://github.com/junegunn/vim-plug for possibilities
-Plug 'vim-syntastic/syntastic'                                  " Syntax checker
+Plug 'vim-syntastic/syntastic'              " Syntax checker
 " These are in old config
+Plug 'morhetz/gruvbox'                      " Color theme
+Plug 'henrik/vim-indexed-search'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-surround'
 " Plug 'VundleVim/Vundle.vim'
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'PProvost/vim-ps1'
-" Plug 'tpope/vim-surround'
 " Plug 'vim-airline/vim-airline'
 " Plug 'pangloss/vim-javascript'
 " Plug 'PotatoesMaster/i3-vim-syntax'
 " Plug 'vim-jp/vim-cpp'
-" Plug 'henrik/vim-indexed-search'
-" Plug 'godlygeek/tabular'
-" Plug 'tpope/vim-commentary'
 " Plug 'mbbill/undotree'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'dracula/vim'
-" Plug 'morhetz/gruvbox'
 call plug#end()
 
+" ============= vim-indexed-search ======================
+let g:indexed_search_colors = 0
+let g:indexed_search_numbered_only = 1
+
 " ============== Status line ============================
-set statusline+=%#warningmsg#                              " hl- style
-set statusline+=%{SyntasticStatuslineFlag()}               " Don't know
+" set statusline+=%#warningmsg#                            " hl- style
+" set statusline+=%{SyntasticStatuslineFlag()}             " Don't know
 set statusline+=%#PmenuSel#                                " hl- style
 set statusline+=%m                                         " Modified?
 set statusline+=%#StatusLine#                              " hl- style
@@ -88,10 +100,10 @@ set statusline+=\ %r                                       " Read only
 set statusline+=\ [f:%t\]                                  " Name tail
 set statusline+=\ [enc:%{&fileencoding?&fileencoding:&encoding}]
 set statusline+=\ [ff:%{&fileformat}\]
-set statusline+=\ %3.p%%                                 " Percentage
-set statusline+=\ %l/%L:%c                               " line/TotalLines:Col
-set statusline+=%=
-set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}
+set statusline+=\ %3.p%%                                   " Percentage
+set statusline+=\ %l/%L:%c                                 " line/TotalLines:Col
+set statusline+=%=                                         " Align to the right
+set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}  " Time
 " ============== Syntax checkers ========================
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list=1
@@ -107,7 +119,6 @@ let g:syntastic_loc_list_height=5
 let g:syntastic_ignore_files=['\m/node_modules/', '\m/__pycache__/']
 
 " ============== WINDOWS SPECIFIC CONFIG ================
-
 if has("win32")
   " Unprintable characters
   set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
