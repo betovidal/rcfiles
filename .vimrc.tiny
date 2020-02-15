@@ -8,7 +8,8 @@ set nocompatible            " Do not pretend to be vi, enable new features
 set showcmd
 let mapleader=","           " To add more functionality, instead of \
 filetype plugin on          " Enable netwr
-set wildignore+=**/node/modules/**,**/__pycache__/** " Do not consider folders in :find
+set wildignore+=**/node_modules/**,**/__pycache__/** " Do not consider folders in :find
+set encoding=utf-8
 set wildmenu                " Display all matching files when we tab complete, complete ex commands
 set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
 set showcmd                 " Show command being executed
@@ -52,6 +53,7 @@ nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR
 " ============== PLUGINS ===================
 call plug#begin('~/.vim/plugged')
 " See https://github.com/junegunn/vim-plug for possibilities
+Plug 'vim-syntastic/syntastic'                                  " Syntax checker
 " These are in old config
 " Plug 'VundleVim/Vundle.vim'
 " Plug 'ajh17/VimCompletesMe'
@@ -70,6 +72,34 @@ call plug#begin('~/.vim/plugged')
 " Plug 'morhetz/gruvbox'
 call plug#end()
 
+" ============== Status line ============================
+set statusline+=%#warningmsg#                              " hl- style
+set statusline+=%{SyntasticStatuslineFlag()}               " Don't know
+set statusline+=%#PmenuSel#                                " hl- style
+set statusline+=%m                                         " Modified?
+set statusline+=%#StatusLine#                              " hl- style
+set statusline+=\ %r                                       " Read only
+set statusline+=\ [f:%t\]                                  " Name tail
+set statusline+=\ [enc:%{&fileencoding?&fileencoding:&encoding}]
+set statusline+=\ [ff:%{&fileformat}\]
+set statusline+=\ %3.p%%                                 " Percentage
+set statusline+=\ %l/%L:%c                               " line/TotalLines:Col
+set statusline+=%=
+set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}
+" ============== Syntax checkers ========================
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=0
+let g:syntastic_check_on_wq=0
+let g:syntastic_error_symbol="x"
+let g:syntastic_style_error_symbol="S"
+let g:syntastic_warning_symbol="!"
+let g:syntastic_style_warning_symbol="s"
+let g:syntastic_sort_aggregated_errors=1
+let g:syntastic_loc_list_height=5
+let g:syntastic_ignore_files=['\m/node_modules/', '\m/__pycache__/']
+
 " ============== WINDOWS SPECIFIC CONFIG ================
 
 if has("win32")
@@ -85,9 +115,8 @@ if has("win32")
   set guicursor+=a:block-Cursor
   " Fix line endings IN GOOGLE KEEP. This messes some config files in windows.
   " use ff=dos when needed... or save again in notepad.
+  " It means fileformat
   set ff=unix
-  " Fix line endings
-  set encoding=utf-8
   " Avoid mouse interaction other than selecting
   set mouse=c
   " set guifont=terminus:h14
