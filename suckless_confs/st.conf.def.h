@@ -29,12 +29,13 @@ static const char *colorname[] = {
 };
 unsigned int defaultfg = 15;
 unsigned int defaultbg = 0;
-unsigned int defaultcs = 15;
-unsigned int defaultrcs = 15;
+static unsigned int defaultcs = 15;
+static unsigned int defaultrcs = 15;
 /* gruvbox-dark colorscheme FINISH */
 
-
+/* I used to like this */
 char font[] = "Terminus:pixelsize=18";
+/* But now I use */
 static char *font = "DejaVu Sans Mono for Powerline:pixelsize=18:antialias=true:autohint=true";
 
 	/* { XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0,  0}, */
