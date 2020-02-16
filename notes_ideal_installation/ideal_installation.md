@@ -1,7 +1,6 @@
 # This is what my ideal installation looks like
 
-Debian, net install. In windows use rufus, in Linux:
-(unmounted device)
+* Debian, net install. In windows use rufus, in Linux (unmounted device):
 
 ```
 $mkdosfs /dev/sdX1
@@ -12,24 +11,25 @@ $dd if=<file> of=<device> bs=4M; sync
 * https://wiki.debian.org/BootUsb
 * https://www.debian.org/CD/faq/#write-up 
 
+* **Read "sources.list" note**
+
 ## Packages
 
 Install mode: sudo apt install
 I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git_repositories/
 
-* Read "sources.list" note.
 * Add user to sudo: #usermod -aG sudo <user>
 * sudo
 * gcc (199 MB)
 * make
-* linux headers: $sudo apt-get install linux-headers-$(uname -r)
+* linux headers (for nVidia drivers): $sudo apt-get install linux-headers-$(uname -r)
 * bash-completion
-* xorg, ->xinit<-
+* xorg through **xinit**
 * remove *nouveau* (if installing nvidia propietary drivers from nvidia/drivers page
 * install mesa-utils to have glx extension enabled!
 * restart, nVidia's installer will prompt you to automatically add disable modprobe for nouveau, say yes and restart. Check 'TTY1 output on boot' note for details.
 * nVidia propietary drivers (see NVIDIAadditional information)
-* To have read+write access to ntfs partitions: ntfs-3d (and reboot)
+* To have read+write access to ntfs partitions: ntfs-3g (and reboot)
 * git (git-core is an alias to git, so, use git)
 * alsa-utils (Check "Additional alsa configuration" note for details).
 * pulseaudio (this is a sound server, this solves my problem of a single program being able to use sound output)
@@ -57,6 +57,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * libnotify-bin (example: $notify-send Test "This is a test")
 * sxiv (Simple X Image Viewer, open with this, custom command "sixv -a" for animated gifs)
 * p7zip-full
+* intel-microcode (to avoid the error described here: https://askubuntu.com/questions/984970/firmware-bug-tsc-deadline-disabled-due-to-errata-what-should-i-do-about-thi)
 
 ## From dpkg
 
