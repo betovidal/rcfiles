@@ -77,21 +77,33 @@ set background=dark         " Dark mode
 if maparg('<C-L>', 'n') ==# ''
     nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
-" Check current file for errors/warnings/style violations (depending on the
-" tool)
-nnoremap ,s :SyntasticCheck<CR>
-" Close 'location-list-window', the one syntastic uses for showing errors
-nnoremap ,c :lclose<CR>
-" switch buffers (note the space after :b)
-nnoremap ,b :ls<CR>:b 
-" Tabularize
-vnoremap ,t :Tab/
+" (A)nalyze code
+nnoremap <leader>a :SyntasticCheck<CR>
+" (C)lose 'location-list-window', the one syntastic uses for showing errors
+nnoremap <leader>c :lclose<CR>
+" Switch (B)uffers (note the space after :b)
+nnoremap <leader>b :ls<CR>:b 
+" (T)abularize
+vnoremap <leader>t :Tab/
+nnoremap <leader>t :Tab/
 " Expand common enclosing signs to allow keep writing inside
 inoremap () ()<C-c>i
 inoremap [] []<C-c>i
 inoremap {} {}<C-c>i
 inoremap "" ""<C-c>i
 inoremap '' ''<C-c>i
+" Create and align tables as you type
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 " ============= vim-indexed-search ======================
 let g:indexed_search_colors = 0
@@ -156,3 +168,8 @@ if has("win32")
   set guioptions-=r "remove right-hand scroll bar
   set guioptions-=L "remove left-hand scroll bar
 endif
+
+
+
+
+
