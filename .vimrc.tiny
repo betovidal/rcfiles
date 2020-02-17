@@ -1,6 +1,7 @@
 " Boostraped from - https://www.youtube.com/watch?v=XA2WjJbmmoM
 " and vim-sensible
 " Check if I want this https://superuser.com/questions/271023/can-i-disable-continuation-of-comments-to-the-next-line-in-vim
+" https://github.com/prabirshrestha/vim-lsp/wiki/Servers
 " Install vim-plug through:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 packadd matchit             " Match opening/closing html,xml tags with *
@@ -42,6 +43,8 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/async.vim'
 " Plug 'VundleVim/Vundle.vim'
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'PProvost/vim-ps1'
