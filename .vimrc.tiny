@@ -5,6 +5,8 @@
 " Install vim-plug through:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 packadd matchit             " Match opening/closing html,xml tags with *
+" vim-lsp to show documentation in a floating something, not a preview window
+set completeopt-=preview
 filetype plugin indent on   " https://vi.stackexchange.com/a/10125
 set nocompatible            " Do not pretend to be vi, enable new features
 set showcmd
@@ -43,8 +45,9 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
 " Plug 'VundleVim/Vundle.vim'
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'PProvost/vim-ps1'
@@ -56,6 +59,25 @@ Plug 'prabirshrestha/async.vim'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'dracula/vim'
 call plug#end()
+
+" ================= VIM-LSP =============================
+autocmd FileType typescript setlocal omnifunc=lsp#complete
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    " setlocal signcolumn=yes
+    " nmap <buffer> gd <plug>(lsp-definition)
+    " nmap <buffer> <f2> <plug>(lsp-rename)
+    " refer to doc to add more commands
+endfunction
+
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'javascript support using typescript-language-server',
+      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+      \ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
+      \ })
+endif
 
 "  ================  NETRW CONFIGURATION =================
 let g:netrw_browse_split=0  " Default, use current window to open file
@@ -90,13 +112,12 @@ nnoremap <leader>b :ls<CR>:b
 vnoremap <leader>t :Tab/
 nnoremap <leader>t :Tab/
 " Expand common enclosing signs to allow keep writing inside
-inoremap () ()<C-c>i
-inoremap [] []<C-c>i
-inoremap {} {}<C-c>i
-inoremap "" ""<C-c>i
-inoremap '' ''<C-c>i
+" inoremap () ()<C-c>i
+" inoremap [] []<C-c>i
+" inoremap {} {}<C-c>i
+" inoremap "" ""<C-c>i
+" inoremap '' ''<C-c>i
 " Create and align tables as you type
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
   if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
@@ -107,6 +128,7 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
 " ============= vim-indexed-search ======================
 let g:indexed_search_colors = 0
