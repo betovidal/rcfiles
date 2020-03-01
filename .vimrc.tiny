@@ -15,6 +15,7 @@ filetype plugin on          " Enable netwr
 set wildignore+=**/node_modules/**,**/__pycache__/** " Do not consider folders in :find
 set encoding=utf-8
 set wildmenu                " Display all matching files when we tab complete, complete ex commands
+set wildmode=longest:full   " Add comma separated option 'list' to see the whole list of options above.
 set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
 set showcmd                 " Show command being executed
 set incsearch               " Highlight conincidences as you search
