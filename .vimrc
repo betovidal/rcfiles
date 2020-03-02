@@ -61,6 +61,11 @@ Plug 'prabirshrestha/vim-lsp'
 " Plug 'dracula/vim'
 call plug#end()
 
+" ================ simple snips =========================
+let g:ssnips_cursor="█"
+let g:ssnips_end_in_insert_mode=1
+let g:ssnips_path="~/.vim/ssnips/"
+
 " ================= VIM-LSP =============================
 autocmd FileType typescript setlocal omnifunc=lsp#complete
 function! s:on_lsp_buffer_enabled() abort
