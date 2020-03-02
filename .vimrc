@@ -1,364 +1,200 @@
-set nocompatible              " be iMproved, required
-set path+=**
-set wildignore+=**/node_modules/**
-set wildignore+=**/.git/**
-let g:netrw_liststyle=3
-
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-" Do not force save before switching to different buffer
-set hidden
+" Boostraped from - https://www.youtube.com/watch?v=XA2WjJbmmoM
+" and vim-sensible
+" Check if I want this https://superuser.com/questions/271023/can-i-disable-continuation-of-comments-to-the-next-line-in-vim
+" https://github.com/prabirshrestha/vim-lsp/wiki/Servers
+" Install vim-plug through:
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+packadd matchit             " Match opening/closing html,xml tags with *
+" vim-lsp to show documentation in a floating something, not a preview window
+set completeopt-=preview
+filetype plugin indent on   " https://vi.stackexchange.com/a/10125
+set nocompatible            " Do not pretend to be vi, enable new features
+set showcmd
+let mapleader=","           " To add more functionality, instead of \
+filetype plugin on          " Enable netwr
+set wildignore+=**/node_modules/**,**/__pycache__/** " Do not consider folders in :find
+set encoding=utf-8
+set wildmenu                " Display all matching files when we tab complete, complete ex commands
+set wildmode=longest:full   " Add comma separated option 'list' to see the whole list of options above.
+set path+=**                " Search down subfolders through :find and tab, specify the folder to search in to avoid overhead
+set showcmd                 " Show command being executed
+set incsearch               " Highlight conincidences as you search
+set hidden                  " Hide buffers instead of closing them. This has benefits like: move across buffers without having to save them. Keep buffers in memory. After changing to a different buffer and going back to the previous buffer, unoding is possible.
+set omnifunc=syntaxcomplete#Complete
+set backspace=indent,start  " :help 'backspace' make backspace delete those levels
+set autoread                " :help 'autoread' make changes available in vim
 set foldmethod=indent
-if has('win32')
-  set list          " Display unprintable characters f12 - switches
-  set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
-  " For windows, install via chocolatey (choco install fzf)
-  " and make this line point to its git repository.
-  set rtp+=~/git_repositories/fzf
-else
-  set rtp+=~/Downloads/git_repositories/fzf
-  " Print trailing spaces
-  set list          " Display unprintable characters f12 - switches
-  set listchars=tab:\·\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
+set nofoldenable            " To avoid starting folded, folds enabled by pressing z comb
+set colorcolumn=81,121
+set hlsearch
+set laststatus=2            " Have status bar available always (for every window)
+set ruler
+set display+=lastline       " Not fully displayed lines end in @@@
+set list                    " Display unprintable characters
+set listchars=tab:\·\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
+" set rulerformat=%l,%c%V%=%P
+" set ruler
+
+" ============== PLUGINS ===================
+call plug#begin('~/.vim/plugged')
+" See https://github.com/junegunn/vim-plug for possibilities
+Plug 'vim-syntastic/syntastic'              " Syntax checker
+" These are in old config
+Plug 'morhetz/gruvbox'                      " Color theme
+Plug 'henrik/vim-indexed-search'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+" Plug 'VundleVim/Vundle.vim'
+" Plug 'ajh17/VimCompletesMe'
+" Plug 'PProvost/vim-ps1'
+" Plug 'vim-airline/vim-airline'
+" Plug 'pangloss/vim-javascript'
+" Plug 'PotatoesMaster/i3-vim-syntax'
+" Plug 'vim-jp/vim-cpp'
+" Plug 'mbbill/undotree'
+" Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'dracula/vim'
+call plug#end()
+
+" ================= VIM-LSP =============================
+autocmd FileType typescript setlocal omnifunc=lsp#complete
+function! s:on_lsp_buffer_enabled() abort
+	setlocal omnifunc=lsp#complete
+	" setlocal signcolumn=yes
+	" nmap <buffer> gd <plug>(lsp-definition)
+	" nmap <buffer> <f2> <plug>(lsp-rename)
+	" refer to doc to add more commands
+endfunction
+
+if executable('typescript-language-server')
+	au User lsp_setup call lsp#register_server({
+	\ 'name': 'javascript support using typescript-language-server',
+	\ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+	\ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+	\ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
+	\ })
 endif
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-" ========== VUNDLE PACKAGES ==========
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ajh17/VimCompletesMe'
-" Plugin 'prabirshrestha/async.vim'
-" Plugin 'prabirshrestha/vim-lsp'
-Plugin 'PProvost/vim-ps1'
-Plugin 'tpope/vim-surround'
-" Plugin 'tpope/vim-fugitive'
-" First I need to install jshint via: npm -g install jshint (and available @ PATH)
-" For styles, install jscs too.
-" NOTE: Other languages require different linters/syntax checkers
-" Plugin 'w0rp/ale'
-Plugin 'vim-airline/vim-airline'
-" Plugin 'Raimondi/delimitMate'
-" Assigned to Ctrl + P (install fzf on the system, check fzf.vim)
-" Plugin 'junegunn/fzf.vim'
-" Syntax related
-Plugin 'pangloss/vim-javascript'
-Plugin 'PotatoesMaster/i3-vim-syntax'
-Plugin 'vim-jp/vim-cpp'
-" Plugin 'sheerun/vim-polyglot'
-" Assigned to Ctrl + T, switch between dictionary (custom see below)
-" Plugin 'AndrewRadev/switch.vim'
-" When searching, display total occurrences of match
-Plugin 'henrik/vim-indexed-search'
-" :Tab /{pattern} -> Even in visual mode
-Plugin 'godlygeek/tabular'
-" gcc, gc{motion}
-Plugin 'tpope/vim-commentary'
-" Check vim's undo tree by pressing <F3>
-Plugin 'mbbill/undotree'
-" Tern it!
-"to install tern clone https://github.com/ternjs/tern_for_vim.git into
-".vim/bundle, then cd tern_for_vim and run the command "npm install"
-" Plugin 'ternjs/tern_for_vim'
-" First I need to install universal-ctags:
-" -------------Update VIM to something after 27/Nov/16------------------
-" git clone https://github.com/universal-ctags/ctags.git
-" (as described in docs/autotools.rst)
-" cd ctags
-" $ ./autogen.sh
-" $ ./configure --prefix=/where/you/want # defaults to /usr/local (using /usr/local)
-" $ make
-" $ make install # may require extra privileges depending on where to install
-" Plugin 'ludovicchabant/vim-gutentags'
-" Plugin 'majutsushi/tagbar' <-- This is just for showing a panel
-" indentLine needs vim-json to work properly with json files (or else quotes
-" are missing)
-" snipets!
-" Lighter indent lines
-" Plugin 'thaerkh/vim-indentguides'
-" Vertical lines on indent space (like in sublime)
-Plugin 'nathanaelkane/vim-indent-guides'
-" Plugin 'honza/vim-snippets'
-" Plugin 'SirVer/ultisnips'
-" Dracula Theme!
-Plugin 'dracula/vim'
-Plugin 'morhetz/gruvbox'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-" For closing description (scratch) buffer when completing
-" set conceallevel=0
-" setl conceallevel=0
-" let g:indentLine_setConceal=0
-" let g:vim_json_syntax_conceal = 0
-" Otherwise vim-json does nothing at all
-hi! def link jsonKeyword Identifier
-" ================================== AIRLINE ==================================
-" For airline to start without the need of creating a new split
-set laststatus=2
-" Set appropiate characters for airline bar
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+
+"  ================  NETRW CONFIGURATION =================
+let g:netrw_browse_split=0  " Default, use current window to open file
+let g:netrw_liststyle=3     " Allow netrw to expand and collapse, see like a tree
+" let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+' <---- Hide something from list
+
+"  ================  TEMPORAL FILES      =================
+let g:netrw_browse_split=0  " Default, use current window to open file
+" Concentrate temporal files files in the same location https://vi.stackexchange.com/a/179
+set directory^=$HOME/.vim/tmp// " Swap files (e.g. %home%tocino%.vimrc)
+set backupdir^=$HOME/.vim/tmp// " Temporal (file.ext~)
+set undodir^=$HOME/.vim/tmp//   " I can't recall how these look
+
+" ================= COLOR SCHEME CONFIGURATION ===========
+syntax enable               " Colors for syntax
+colorscheme gruvbox         " Download from https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim
+set number                  " Line numbers in gutter
+set background=dark         " Dark mode
+
+" ============== KEYMAPPINGS ================
+" Clear highlight with Control L, taken from vim-sensible
+if maparg('<C-L>', 'n') ==# ''
+	nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled=1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod=':t'
-" Let tagbar where ctags executable is:
-let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-" ================================== ALE ==================================
-" Force ALE to use global executables
-let g:ale_javascript_eslint_use_global=1
-let g:ale_javascript_jscs_use_global=1
-let g:ale_javascript_jshint_use_global=1
-let g:ale_completion_enabled=1
-" Time saving
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save  = 1
-" Leave gutter open
-let g:ale_sign_column_always=1
-" ALE change notification icons
-let g:airline#extensions#ale#enabled=1
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-" "============================ Buffer Gator ===========================
-" let g:buffergator_autoexpand_on_split=0
-" "============================ dracula.vim ===========================
-let g:dracula_italic=0
-" ================================== FZF.VIM = ============================
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-command! SearchWithFZFandRipGrep call fzf#run(fzf#wrap({
-  \'source'  : 'rg --files --follow --hidden --glob !.git/* --glob !node_modules/*',
-  \'options' : '-m'
-\}))
-noremap <C-P> :SearchWithFZFandRipGrep <CR>
-" "============================ gruvbox ===========================
-set bg=dark
-" ================================== GUTENTAGS =============================
-let g:gutentags_cache_dir='~/.vim/tags'
-let g:gutentags_ctags_exclude = ['node_modules', '.git', '*.min.js']
-let g:gutentags_file_list_command = "rg --files -g '*.{js,h,c,py}'"
-" let g:gutentags_resolve_symlinks = 1
-" let g:gutentags_trace = 1
-" ================================== VIM.LSP ===================================
-" Install: npm install -g javascript-typescript-langserver
-if executable('javascript-typescript-langserver')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'javascript-typescript-langserver',
-      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'javascript-typescript-stdio']},
-      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
-      \ })
-    autocmd FileType javascript setlocal omnifunc=lsp#complete
-endif
-" To enable preview window:
-set completeopt+=preview
-" To auto close preview window when completion is done.
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-" ======================== UTILSNIPS =======================
-" Important!! Ctrl+Space was remapped in urxvt and disabled from ibus through:
-" (Command in terminal)
-" gsettings set org.freedesktop.ibus.general.hotkey triggers []
-" to execute the same char code as F11:
-" urxvt.keysym.Control-Tab: \033[23~
-" where \033 is the octal code for ESCAPE and [23~ is F11
-"                            Ctrl + Space is mapped to trigger F11
-let g:UltiSnipsExpandTrigger="<F11>"
-" ================================ Vim Indent Guides ==========================
-let g:indent_guides_start_level=2
-let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_tab_guides = 0
-" ================================
-" Override \ as leader key
-let mapleader=","
-" ================================ _My functions START_ =======================
-function MDOpen(option)
-	let html_destination = $HOME . '/.vim/html/tmp.html'
-	if &filetype == 'markdown'
-		let full_path = expand('%:p')
-		if has('win32')
-			echo 'I do not know how to do this here! Be patient'
-		else
-			execute "silent !cat " . full_path . " | cmark > " . html_destination
-			if (a:option == 1)
-				execute "silent !dillo " . html_destination
-			endif
-			redraw!
-		endif
-	else
-		echo 'This is not a markdown file!'
+" (A)nalyze code
+nnoremap <leader>a :SyntasticCheck<CR>
+" (C)lose 'location-list-window', the one syntastic uses for showing errors
+nnoremap <leader>c :lclose<CR>
+" Switch (B)uffers (note the space after :b)
+nnoremap <leader>b :ls<CR>:b 
+" (T)abularize
+vnoremap <leader>t :Tab/
+nnoremap <leader>t :Tab/
+" Call snip completion
+" nnoremap <leader>s :call dumbsnips#expand()<CR>
+inoremap <expr> <C-B> "<ESC>:call ssnips#expand()<CR>"
+" Expand common enclosing signs to allow keep writing inside
+" inoremap () ()<C-c>i
+" inoremap [] []<C-c>i
+" inoremap {} {}<C-c>i
+" inoremap "" ""<C-c>i
+" inoremap '' ''<C-c>i
+" Create and align tables as you type
+function! s:align()
+	let p = '^\s*|\s.*\s|\s*$'
+	if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+		let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+		let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+		Tabularize/|/l1
+		normal! 0
+		call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
 	endif
 endfunction
-nmap ,c  :call MDOpen(0)<CR>
-nmap ,cc :call MDOpen(1)<CR>
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-" inoremap {;<CR> {<CR>};<ESC>O
-" ================================ _My functions END_ =========================
+" ============= vim-indexed-search ======================
+let g:indexed_search_colors = 0
+let g:indexed_search_numbered_only = 1
 
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray24 ctermbg=8
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray24 ctermbg=8
-" Display command on bottom
-set showcmd
-" Complete ex commands
-set wildmenu
-set wildmode=longest:full,list:full
-" My own remapped keys:
-" For opening NERDTree
-" silent! nmap <F2> :NERDTreeToggle<CR>
-nnoremap j gj
-nnoremap k gk
-noremap  <F2> :NERDTreeToggle<CR>
-" silent! nmap <C-S-L> :%!python -m json.tool<CR>
-" gt and gT to navigate between tabs, now I'll navigate through buffers
-nmap gt :bnext <CR>
-nmap gT :bprevious <CR>
-nmap <F3> :UndotreeToggle<CR>
-" For opening tagbar
-nmap <F4> :TagbarToggle<CR>
-" Overriden in urxvt/st config
-nnoremap <F9>  : bprev<CR>
-nnoremap <F10> : bnext<CR>
-" Clear search highlight on <F5>
-nnoremap <F5> :noh<return><esc>
-" Default tab spacing
-" tabstop maximum size of a tab measured in spaces
-" tabstop maximum size of a tab measured in spaces
-set tabstop=4
-set softtabstop=0 noexpandtab
-set shiftwidth=4
-" Undo files (useful while using buffers instead of tabs)
-set undofile undodir=~/.vim/undo
-" For C
-autocmd Filetype c setlocal ts=8 sw=8
-autocmd Filetype h setlocal ts=8 sw=8
-" For python
-autocmd Filetype py setlocal ts=2 sw=2 expandtab
-" For javascript, css, html
-autocmd Filetype javascript setlocal ts=4 sw=4 expandtab
-autocmd Filetype css setlocal ts=4 sw=4 expandtab
-autocmd Filetype html setlocal ts=4 sw=4 expandtab
-" Add built in packages
-" Matches opening/closing tags (html, xml)
-packadd matchit
-" Don't open the zip explorer
-let g:loaded_zipPlugin= 1
-let g:loaded_zip      = 1
-" Misc configurations
-syntax on
-set number
-set t_Co=256
-" set colorscheme
-colorscheme gruvbox
-" Do not use polyglot with the following filetypes:
-" let g:polyglot_disabled = ['markdown', 'text', 'json', 'html5']
-set incsearch
-" Fix cursor dissappear on current parenthesis (override color scheme)
-" hi MatchParen cterm=bold ctermbg=none ctermfg=200
-hi MatchParen cterm=bold ctermbg=226 ctermfg=0
-" Highlight column 81 (it's ok to code before it).
-set colorcolumn=81,121
-set directory-=~/.vim/tmp
-set directory^=~/.vim/tmp//
-set backupdir-=~/.vim/tmp
-set backupdir^=~/.vim/tmp//
-set ruler
-set hlsearch
+" ============== Status line ============================
+set statusline=                                            " Clear status line
+" set statusline+=%#warningmsg#                            " hl- style
+" set statusline+=%{SyntasticStatuslineFlag()}             " Don't know
+set statusline+=%#PmenuSel#                                " hl- style
+set statusline+=%m                                         " Modified?
+set statusline+=%#StatusLine#                              " hl- style
+set statusline+=\ %r                                       " Read only
+set statusline+=\ [f:%t\]                                  " Name tail
+set statusline+=\ [enc:%{&fileencoding?&fileencoding:&encoding}]
+set statusline+=\ [ff:%{&fileformat}\]
+set statusline+=\ %3.p%%                                   " Percentage
+set statusline+=\ %l/%L:%c                                 " line/TotalLines:Col
+set statusline+=%=                                         " Align to the right
+set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}  " Time
+" ============== Syntax checkers ========================
+let g:syntastic_javascript_checkers = ['eslint']
+" Install $pip pylama and $pip pylama_pylint
+let g:syntastic_python_checkers = ['pylama', 'pylint']
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=0
+let g:syntastic_check_on_wq=0
+let g:syntastic_error_symbol="x"
+let g:syntastic_style_error_symbol="S"
+let g:syntastic_warning_symbol="!"
+let g:syntastic_style_warning_symbol="s"
+let g:syntastic_sort_aggregated_errors=1
+let g:syntastic_loc_list_height=5
+let g:syntastic_ignore_files=['\m/node_modules/', '\m/__pycache__/']
+let g:syntastic_mode_map = {
+	\ "mode": "passive",
+	\ "active_filetypes": [],
+	\ "passive_filetypes": [] }
+
+" ============== WINDOWS SPECIFIC CONFIG ================
 if has("win32")
-  set belloff=all
-  " Kill pop ups
-  set guioptions+=lrbmTLce
-  set guioptions-=lrbmTLce
-  set guioptions+=c
-  " Do not blink, block cursor
-  set guicursor+=a:blinkon0
-  set guicursor+=a:block-Cursor
-  " Fix line endings
-  set ff=unix " This fixes extra line breaks in google.keep
-  " Fix line endings
-  set encoding=utf-8
-  " Avoid mouse interaction other than selecting
-  set mouse=c
-  " set guifont=terminus:h14
-  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h14
-  set guioptions-=m "remove menu bar
-  set guioptions-=T "remove toolbar
-  set guioptions-=r "remove right-hand scroll bar
-  set guioptions-=L "remove left-hand scroll bar
-  " Move across buffers
-  nnoremap <C-S-Tab> : bprev<CR>
-  nnoremap <C-Tab>   : bnext<CR>
-  " Util snips KB shortcut to expand
-  let g:UltiSnipsExpandTrigger="<C-Space>"
-  " Non unicode symbols
-  " let g:airline_left_sep = ''
-  " let g:airline_right_sep = ''
-  " let g:airline_left_alt_sep = ''
-  " let g:airline_right_alt_sep = ''
-  " let g:airline_symbols.linenr = 'LN'
-  " let g:airline_symbols.branch = 'Y'
-  " let g:airline_symbols.paste = 'P'
-  " let g:airline_symbols.whitespace = '_'
-  " let g:airline_symbols.readonly = 'RO'
-  " let g:ale_statusline_format = ['x %d', '! %d', 'OK']
-  " let g:ale_sign_error = 'x'
-  " unicode symbols
-  let g:airline_symbols.paste = 'ρ'
-  let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-  let g:ale_statusline_format = ['✖ %d', '⚠ %d', '✓ ok']
-  let g:ale_sign_error = '✖'
-elseif has("unix")
-  " unicode symbols
-  let g:airline_symbols.paste = 'ρ'
-  let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-  let g:ale_statusline_format = ['✖ %d', '⚠ %d', '✓ ok']
-  let g:ale_sign_error = '✖'
+	" Unprintable characters
+	set listchars=tab:\|\ ,trail:-,extends:>,precedes:< " Unprintable chars mapping
+	set belloff=all
+	" Kill pop ups
+	set guioptions+=lrbmTLce
+	set guioptions-=lrbmTLce
+	set guioptions+=c
+	" Do not blink, block cursor
+	set guicursor+=a:blinkon0
+	set guicursor+=a:block-Cursor
+	" Fix line endings IN GOOGLE KEEP. This messes some config files in windows.
+	" use ff=dos when needed... or save again in notepad.
+	" It means fileformat
+	set ff=unix
+	" Avoid mouse interaction other than selecting
+	set mouse=c
+	" set guifont=terminus:h14
+	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h14
+	set guioptions-=m "remove menu bar
+	set guioptions-=T "remove toolbar
+	set guioptions-=r "remove right-hand scroll bar
+	set guioptions-=L "remove left-hand scroll bar
 endif
-" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-
