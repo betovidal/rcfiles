@@ -32,6 +32,7 @@ static const char *vol_up[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *vol_down[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
 static const char *scrot_whole[] = { "scrot", "-e", "mv $f ~/Pictures/caps/", NULL };
 static const char *scrot_rect[] = { "scrot", "-s", "-e", "mv $f ~/Pictures/caps/", NULL };
+static const char *scrot_rect_clipboard[] = { "scrot", "-s", "-e", "scrot -e 'xclip -selection clipboard -t image/png -i $f; rm $f'", NULL };
 static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]   = { "st", NULL };
 
@@ -43,7 +44,7 @@ static Key keys[] = {
 	/* XK_plus             */
 	/* XK_minus            */
 	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
-	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect } },
+	{ MODKEY|ControlMask,           XK_Print,  spawn,          {.v = scrot_rect } },
 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect } },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_KP_Add, spawn,          {.v = vol_up } },
