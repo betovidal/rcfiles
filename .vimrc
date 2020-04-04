@@ -161,7 +161,7 @@ set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}  " Time
 " ============== Syntax checkers ========================
 let g:syntastic_javascript_checkers = ['eslint']
 " Install $pip pylama and $pip pylama_pylint
-let g:syntastic_python_checkers = ['pylama', 'pylint']
+let g:syntastic_python_checkers = ['pycodestyle', 'pydocstyle']
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=0
