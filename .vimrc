@@ -75,7 +75,7 @@ function! s:on_lsp_buffer_enabled() abort
 	" nmap <buffer> <f2> <plug>(lsp-rename)
 	" refer to doc to add more commands
 endfunction
-
+" Resgister Javascript server
 if executable('typescript-language-server')
 	au User lsp_setup call lsp#register_server({
 	\ 'name': 'javascript support using typescript-language-server',
@@ -83,6 +83,14 @@ if executable('typescript-language-server')
 	\ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
 	\ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact']
 	\ })
+endif
+" Resgister Python server
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
 endif
 
 "  ================  NETRW CONFIGURATION =================
