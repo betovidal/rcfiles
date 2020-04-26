@@ -93,6 +93,12 @@ if executable('pyls')
         \ })
 endif
 
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
 "  ================  NETRW CONFIGURATION =================
 let g:netrw_browse_split=0  " Default, use current window to open file
 let g:netrw_liststyle=3     " Allow netrw to expand and collapse, see like a tree
