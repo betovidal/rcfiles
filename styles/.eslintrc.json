@@ -96,7 +96,18 @@
         ],
         "semi": [
             "error",
-            "always"
-        ]
+	    "always"
+        ],
+	"no-multiple-empty-lines": [
+		"error", {
+			"max": 0,
+			"maxEOF": 1
+		}
+	],
+	"max-statements-per-line": [
+		"error", {
+			"max": 1
+		}
+	]
     }
 }
