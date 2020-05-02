@@ -120,6 +120,27 @@ colorscheme gruvbox         " Download from https://raw.githubusercontent.com/mo
 set number                  " Line numbers in gutter
 set background=dark         " Dark mode
 
+" ============== JUMP VIM LIST =============
+" https://stackoverflow.com/a/27204000
+" wrap :cnext/:cprevious and :lnext/:lprevious
+function! WrapCommand(direction, prefix)
+	if a:direction == "up"
+		try
+			execute a:prefix . "previous"
+		catch /^Vim\%((\a\+)\)\=:E553/
+			execute a:prefix . "last"
+		catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+		endtry
+	elseif a:direction == "down"
+		try
+			execute a:prefix . "next"
+		catch /^Vim\%((\a\+)\)\=:E553/
+			execute a:prefix . "first"
+		catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+		endtry
+	endif
+endfunction
+
 " ============== KEYMAPPINGS ================
 " Clear highlight with Control L, taken from vim-sensible
 if maparg('<C-L>', 'n') ==# ''
@@ -128,7 +149,20 @@ endif
 " (A)nalyze code
 nnoremap <leader>a :SyntasticCheck<CR>
 " (C)lose 'location-list-window', the one syntastic uses for showing errors
-nnoremap <leader>c :lclose<CR>
+" and reset Syntastic to avoid opening the error buffer upon switching buffers
+nnoremap <leader>c :SyntasticReset<CR> :lclose<CR>
+" Next/previous in location list (triggered by e.g. LspDefinition)
+nnoremap <C-k> :call WrapCommand('up', 'c')<CR>
+nnoremap <C-j>  :call WrapCommand('down', 'c')<CR>
+" Next/previous in quickfix list (triggered by e.g. SyntasticCheck)
+nnoremap <C-p> :call WrapCommand('up', 'l')<CR>
+nnoremap <C-n> :call WrapCommand('down', 'l')<CR>
+" vim-lsp
+nnoremap <leader>dc :LspDeclaration<CR>
+nnoremap <leader>df :LspDefinition<CR>
+nnoremap <leader>h :LspHover<CR>
+" Quickly search
+nnoremap <leader>f :find 
 " Switch (B)uffers (note the space after :b)
 nnoremap <leader>b :ls<CR>:b 
 " (T)abularize
