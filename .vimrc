@@ -168,13 +168,13 @@ set statusline+=%#PmenuSel#                                " hl- style
 set statusline+=%m                                         " Modified?
 set statusline+=%#StatusLine#                              " hl- style
 set statusline+=\ %r                                       " Read only
-set statusline+=\ [f:%t\]                                  " Name tail
+set statusline+=\ [f:%f\]                                  " Name tail
 set statusline+=\ [enc:%{&fileencoding?&fileencoding:&encoding}]
 set statusline+=\ [ff:%{&fileformat}\]
 set statusline+=\ %3.p%%                                   " Percentage
 set statusline+=\ %l/%L:%c                                 " line/TotalLines:Col
-set statusline+=%=                                         " Align to the right
-set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}  " Time
+" set statusline+=%=                                         " Align to the right
+" set statusline+=%{strftime('%a\ \|\ %F\ \|\ %H:%M:%S\ ')}  " Time
 " ============== Syntax checkers ========================
 let g:syntastic_javascript_checkers = ['eslint']
 " Install $pip pylama and $pip pylama_pylint
