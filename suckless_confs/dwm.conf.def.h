@@ -15,6 +15,7 @@ static const Rule rules[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *insert_emoji[] = { "splatmoji", "type", NULL };
 static const char *mouse_up[] = { "xdotool", "mousemove_relative", "--", "0", "-15", NULL };
 static const char *mouse_right[] = { "xdotool", "mousemove_relative", "--", "15", "0", NULL };
 static const char *mouse_down[] = { "xdotool", "mousemove_relative", "--", "0", "15", NULL };
@@ -33,7 +34,6 @@ static const char *vol_down[] = { "amixer", "-q", "sset", "Master", "5%-", NULL 
 static const char *scrot_whole[] = { "scrot", "-e", "mv $f ~/Pictures/caps/", NULL };
 static const char *scrot_rect[] = { "scrot", "-s", "-e", "mv $f ~/Pictures/caps/", NULL };
 static const char *scrot_rect_clipboard[] = { "scrot", "-s", "-e", "scrot -e 'xclip -selection clipboard -t image/png -i $f; rm $f'", NULL };
-static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]   = { "st", NULL };
 
 static Key keys[] = {
@@ -41,9 +41,11 @@ static Key keys[] = {
 	/* My own key bindings START */
 	/* XK_KP_Subtract      */
 	/* XK_KP_Add           */
+	/* XK_KP_Enter            */
 	/* XK_plus             */
 	/* XK_minus            */
 	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
+	{ MODKEY|ShiftMask,             XK_KP_Enter,spawn,         {.v = termcmd } },
 	{ MODKEY|ControlMask,           XK_Print,  spawn,          {.v = scrot_rect } },
 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect } },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
