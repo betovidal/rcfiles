@@ -41,13 +41,12 @@ static Key keys[] = {
 	/* My own key bindings START */
 	/* XK_KP_Subtract      */
 	/* XK_KP_Add           */
-	/* XK_KP_Enter            */
 	/* XK_plus             */
 	/* XK_minus            */
 	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
 	{ MODKEY|ShiftMask,             XK_KP_Enter,spawn,         {.v = termcmd } },
-	{ MODKEY|ControlMask,           XK_Print,  spawn,          {.v = scrot_rect } },
-	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect } },
+	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrot_rect } },
+	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect_clipboard } },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_KP_Add, spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_minus,  spawn,          {.v = vol_down } },
@@ -65,4 +64,6 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_l,      spawn,          {.v = mouse_right } },
 	{ MODKEY|ControlMask,           XK_space,  spawn,          {.v = click_left } },
 	{ MODKEY|ControlMask|ShiftMask, XK_space,  spawn,          {.v = click_right } },
+	{ MODKEY,                       XK_e,  spawn,              {.v = insert_emoji } },
 	/* My own key bindings END */
+
