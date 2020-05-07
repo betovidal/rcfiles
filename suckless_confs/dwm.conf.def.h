@@ -6,8 +6,26 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,       NULL,       NULL,       0,            0,           -1 },
+	/* No rules at all                                                        */
+	/* { NULL,       NULL,       NULL,       0,            0,           -1 }, */
+	/* class      instance    title       tags mask     isfloating   monitor  */
+	{
+		"Microsoft Teams - Preview",
+		"microsoft teams - preview",
+		"Microsoft Teams",
+		0,
+		0,
+		-1
+	},
+	/* Notifications (reply previews, reactions) */
+	{
+		"Microsoft Teams - Preview",
+		"microsoft teams - preview",
+		"Microsoft Teams Notification",
+		0,
+		1,
+		0
+	},
 };
 
 ........................
@@ -32,21 +50,15 @@ static const char *seek_b_track[] = { "cmus-remote", "-k", "-5", NULL };
 static const char *vol_up[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *vol_down[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
 static const char *scrot_whole[] = { "scrot", "-e", "mv $f ~/Pictures/caps/", NULL };
-static const char *scrot_rect[] = { "scrot", "-s", "-e", "mv $f ~/Pictures/caps/", NULL };
-static const char *scrot_rect_clipboard[] = { "scrot", "-s", "-e", "scrot -e 'xclip -selection clipboard -t image/png -i $f; rm $f'", NULL };
 static const char *termcmd[]   = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* My own key bindings START */
-	/* XK_KP_Subtract      */
-	/* XK_KP_Add           */
-	/* XK_plus             */
-	/* XK_minus            */
-	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
 	{ MODKEY|ShiftMask,             XK_KP_Enter,spawn,         {.v = termcmd } },
-	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrot_rect } },
-	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect_clipboard } },
+	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
+	/* scrot selection to clipboard */
+	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -s -e 'xclip -selection clipboard -t image/png -i $f; rm $f;'") },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_KP_Add, spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_minus,  spawn,          {.v = vol_down } },
