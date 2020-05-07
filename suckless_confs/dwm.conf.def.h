@@ -1,3 +1,5 @@
+/* Apply https://dwm.suckless.org/patches/canfocusrule/ */
+
 static const char *fonts[]          = { "DejaVu Sans Mono for Powerline:pixelsize=16" };
 static const char dmenufont[]       = "DejaVu Sans Mono for Powerline:pixelsize=16";
 
@@ -6,15 +8,16 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* No rules at all                                                        */
-	/* { NULL,       NULL,       NULL,       0,            0,           -1 }, */
-	/* class      instance    title       tags mask     isfloating   monitor  */
+	/* No rules at all                                                                 */
+	/* { NULL,       NULL,       NULL,       0,            0,          1/0       -1 }, */
+	/* class      instance    title       tags mask     isfloating  canfocus monitor   */
 	{
 		"Microsoft Teams - Preview",
 		"microsoft teams - preview",
 		"Microsoft Teams",
 		0,
 		0,
+		1,
 		-1
 	},
 	/* Notifications (reply previews, reactions) */
@@ -24,6 +27,7 @@ static const Rule rules[] = {
 		"Microsoft Teams Notification",
 		0,
 		1,
+		0,
 		0
 	},
 };
