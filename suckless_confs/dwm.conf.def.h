@@ -36,7 +36,6 @@ static const Rule rules[] = {
 
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *insert_emoji[] = { "splatmoji", "type", NULL };
 static const char *mouse_up[] = { "xdotool", "mousemove_relative", "--", "0", "-15", NULL };
 static const char *mouse_right[] = { "xdotool", "mousemove_relative", "--", "15", "0", NULL };
@@ -53,16 +52,14 @@ static const char *seek_f_track[] = { "cmus-remote", "-k", "+5", NULL };
 static const char *seek_b_track[] = { "cmus-remote", "-k", "-5", NULL };
 static const char *vol_up[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *vol_down[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
-static const char *scrot_whole[] = { "scrot", "-e", "mv $f ~/Pictures/caps/", NULL };
-static const char *termcmd[]   = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* My own key bindings START */
 	{ MODKEY|ShiftMask,             XK_KP_Enter,spawn,         {.v = termcmd } },
-	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
+	{ 0,                            XK_Print,  spawn,          SHCMD("maim ~/Pictures/caps/$(date '+%s').png") },
 	/* scrot selection to clipboard */
-	{ MODKEY,                       XK_Print,  spawn,          SHCMD("scrot -s -e 'xclip -selection clipboard -t image/png -i $f; rm $f;'") },
+	{ MODKEY,                       XK_Print,  spawn,          SHCMD("maim -s | xclip -selection clipboard -t image/png") },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_KP_Add, spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_minus,  spawn,          {.v = vol_down } },
