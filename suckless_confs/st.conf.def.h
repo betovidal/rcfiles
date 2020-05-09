@@ -1,8 +1,6 @@
 Last working version: 0.8.3
 
-Order:
-1. https://st.suckless.org/patches/scrollback/
-2. Scrollback for mouse (same URL as above)
+No patches needed anymore. Use tmux.
 
 /* gruvbox-dark colorscheme START */
 /* Terminal colors (16 first used in escape sequence) */
@@ -33,6 +31,6 @@ static unsigned int defaultrcs = 15;
 /* I used to like this */
 char font[] = "Terminus:pixelsize=18";
 /* But now I use */
-static char *font = "DejaVu Sans Mono for Powerline:pixelsize=22:antialias=true:autohint=true";
+static char *font = "DejaVu Sans Mono for Powerline:pixelsize=25:antialias=true:autohint=true";
 
 Install with: $sudo make clean install
