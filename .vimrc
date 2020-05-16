@@ -168,6 +168,8 @@ nnoremap <leader>b :ls<CR>:b
 " (T)abularize
 vnoremap <leader>t :Tab/
 nnoremap <leader>t :Tab/
+" Python JSON format module
+nnoremap <leader>j :%!python -m json.tool<CR>
 " Call snip completion
 " nnoremap <leader>s :call dumbsnips#expand()<CR>
 inoremap <expr> <C-B> "<ESC>:call ssnips#expand()<CR>"
