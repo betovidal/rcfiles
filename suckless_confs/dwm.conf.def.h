@@ -1,3 +1,5 @@
+/* Apply https://dwm.suckless.org/patches/canfocusrule/ */
+
 static const char *fonts[]          = { "DejaVu Sans Mono for Powerline:pixelsize=16" };
 static const char dmenufont[]       = "DejaVu Sans Mono for Powerline:pixelsize=16";
 
@@ -6,15 +8,35 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,       NULL,       NULL,       0,            0,           -1 },
+	/* No rules at all                                                                 */
+	/* { NULL,       NULL,       NULL,       0,            0,          1/0       -1 }, */
+	/* class      instance    title       tags mask     isfloating  canfocus monitor   */
+	{
+		"Microsoft Teams - Preview",
+		"microsoft teams - preview",
+		"Microsoft Teams",
+		0,
+		0,
+		1,
+		-1
+	},
+	/* Notifications (reply previews, reactions) */
+	{
+		"Microsoft Teams - Preview",
+		"microsoft teams - preview",
+		"Microsoft Teams Notification",
+		0,
+		1,
+		0,
+		0
+	},
 };
 
 ........................
 
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *insert_emoji[] = { "splatmoji", "type", NULL };
 static const char *mouse_up[] = { "xdotool", "mousemove_relative", "--", "0", "-15", NULL };
 static const char *mouse_right[] = { "xdotool", "mousemove_relative", "--", "15", "0", NULL };
 static const char *mouse_down[] = { "xdotool", "mousemove_relative", "--", "0", "15", NULL };
@@ -30,22 +52,14 @@ static const char *seek_f_track[] = { "cmus-remote", "-k", "+5", NULL };
 static const char *seek_b_track[] = { "cmus-remote", "-k", "-5", NULL };
 static const char *vol_up[] = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *vol_down[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
-static const char *scrot_whole[] = { "scrot", "-e", "mv $f ~/Pictures/caps/", NULL };
-static const char *scrot_rect[] = { "scrot", "-s", "-e", "mv $f ~/Pictures/caps/", NULL };
-static const char *scrot_rect_clipboard[] = { "scrot", "-s", "-e", "scrot -e 'xclip -selection clipboard -t image/png -i $f; rm $f'", NULL };
-static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]   = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* My own key bindings START */
-	/* XK_KP_Subtract      */
-	/* XK_KP_Add           */
-	/* XK_plus             */
-	/* XK_minus            */
-	{ 0,                            XK_Print,  spawn,          {.v = scrot_whole } },
-	{ MODKEY|ControlMask,           XK_Print,  spawn,          {.v = scrot_rect } },
-	{ MODKEY,                       XK_Print,  spawn,          {.v = scrot_rect } },
+	{ MODKEY|ShiftMask,             XK_KP_Enter,spawn,         {.v = termcmd } },
+	{ 0,                            XK_Print,  spawn,          SHCMD("maim ~/Pictures/caps/$(date '+%s').png") },
+	/* scrot selection to clipboard */
+	{ MODKEY,                       XK_Print,  spawn,          SHCMD("maim -s | xclip -selection clipboard -t image/png") },
 	{ MODKEY,                       XK_plus,   spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_KP_Add, spawn,          {.v = vol_up } },
 	{ MODKEY,                       XK_minus,  spawn,          {.v = vol_down } },
@@ -63,4 +77,6 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_l,      spawn,          {.v = mouse_right } },
 	{ MODKEY|ControlMask,           XK_space,  spawn,          {.v = click_left } },
 	{ MODKEY|ControlMask|ShiftMask, XK_space,  spawn,          {.v = click_right } },
+	{ MODKEY,                       XK_e,  spawn,              {.v = insert_emoji } },
 	/* My own key bindings END */
+

@@ -1,11 +1,6 @@
-Last working version: 0.8.1
+Last working version: 0.8.3
 
-Order:
-1. https://st.suckless.org/patches/fix_keyboard_input/ (apply from parent folder, the one that contains st/)
-2. https://st.suckless.org/patches/scrollback/
-3. Scrollback for mouse (same URL as above)
-4. https://st.suckless.org/patches/dracula/ <-- By hand
-5. https://st.suckless.org/patches/hidecursor/ <-- By hand
+No patches needed anymore. Use tmux.
 
 /* gruvbox-dark colorscheme START */
 /* Terminal colors (16 first used in escape sequence) */
@@ -36,17 +31,6 @@ static unsigned int defaultrcs = 15;
 /* I used to like this */
 char font[] = "Terminus:pixelsize=18";
 /* But now I use */
-static char *font = "DejaVu Sans Mono for Powerline:pixelsize=18:antialias=true:autohint=true";
-
-	/* { XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0,  0}, */
-	/* { XK_Tab,          ControlMask,                    "\033[9;5u",   0,  0,  0}, */
-	/* { XK_6,            ControlMask,                    "\033[54;5u",  0,  0,  0}, */
-	/* { XK_space,        ShiftMask,                      "\033[32;2u",  0,  0,  0}, */
-
-//Add to bottom of that list
-	/* My own additional key combinations */
-	{ XK_space,        ControlMask,                    "\033[23~",    0,  0},
-	{ XK_ISO_Left_Tab, ControlMask|ShiftMask,          "\033[20~",    0,  0},
-	{ XK_Tab,          ControlMask,                    "\033[21~",    0,  0},
+static char *font = "DejaVu Sans Mono for Powerline:pixelsize=25:antialias=true:autohint=true";
 
 Install with: $sudo make clean install
