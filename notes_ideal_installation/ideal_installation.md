@@ -34,7 +34,7 @@ I prefer to keep (git) installations under the same folder, i.e. ~/Downloads/git
 * alsa-utils (Check "Additional alsa configuration" note for details).
 * pulseaudio (this is a sound server, this solves my problem of a single program being able to use sound output)
 * samba access from thunar is gained by installing (gvfs, sshfs, gvfs-backends)
-* thunar (and dbus-x11 for volman), ranger, feh, xzoom, cmus, curl, lxappearance, gpick, w3m-img, screenfetch, fim (for viewing images on the framebuffer, tty, fb), slop (region selection), maim (screenshots)
+* thunar (and dbus-x11 for volman), ranger, feh, xzoom, cmus, curl, lxappearance, gpick, w3m-img, screenfetch, fim (for viewing images on the framebuffer, tty, fb), slop (region selection), maim (screenshots), nethogs, nload
 * (git) From the respective $git clone http://git.suckless.org/[package]: slock, dmenu, st, farbfeld(libjpeg-turbo) -> sent, dwm, slstatus.
 * See suckless terminal setup (st) note for configuring st.
 * libx11-dev, libxinerama-dev, libxft-dev, libjpeg-dev, libxrandr-dev, libxt-dev
